@@ -73,15 +73,15 @@ Restart carpentry after adding files that should be watched:
 
 ## sample switching and connections
 
-192.168.0.100
+- switch address: 192.168.0.100
 
 ### vlans and networks
 
-100 - 192.168.100.0/24
-110 - 192.168.110.0/24
-120 - 192.168.120.0/24
-130 - 192.168.130.0/24
-999 - 192.168.0.0/24
+- 100 - 192.168.100.0/24
+- 110 - 192.168.110.0/24
+- 120 - 192.168.120.0/24
+- 130 - 192.168.130.0/24
+- 999 - 192.168.0.0/24
 
 ### ports
 
@@ -91,29 +91,29 @@ Restart carpentry after adding files that should be watched:
 
 ### carps
 
-192.168.0.103   # wan
-192.168.100.103 # lan
-192.168.120.103 
-192.168.130.103 
+- 192.168.0.103   # wan
+- 192.168.100.103 # lan
+- 192.168.120.103 # users
+- 192.168.130.103 # users2
 
 ### primary
 
-192.168.0.101   # wan
-192.168.100.101 # lan1
-192.168.110.101 # management
-192.168.120.101 # users
-192.168.130.101 # users 2
+- 192.168.0.101   # wan
+- 192.168.100.101 # lan1
+- 192.168.110.101 # management
+- 192.168.120.101 # users
+- 192.168.130.101 # users 2
 
 - uplink trunk: re0
 - downlink trunk: em0
 
 ### secondary
 
-192.168.0.102   # wan
-192.168.100.102 # lan1
-192.168.110.102 # management
-192.168.120.102 # users
-192.168.130.102 # users 2
+- 192.168.0.102   # wan
+- 192.168.100.102 # lan1
+- 192.168.110.102 # management
+- 192.168.120.102 # users
+- 192.168.130.102 # users 2
 
 - uplink trunk: em0
 - downlink trunk: em1
@@ -346,8 +346,6 @@ An alternative is to use a time-based try-fail mechanism like the following:
 1. create a job to rollback rules
 2. load experimental rules
 3. Either cancel the job if the rules are appropriate or wait for the timeout.
-
-WARNING: Some server are more complex and require manually turning some knobs such as loading the pf tables.
 
 ### list jobs
 
