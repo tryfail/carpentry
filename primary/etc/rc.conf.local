@@ -1,0 +1,5 @@
+dhcpd_flags=-Y 192.168.110.102 -y 192.168.110.101
+ifstated_flags=
+openvpn_flags=NO
+pkg_scripts=carpentry monit
+unbound_flags=

@@ -1,0 +1,19 @@
+#!/bin/ksh
+# the purpose of this script is to monitor if primary can reach secondary on mail port, so that it may be used in the event of a failover
+# this is meant to be executed by monit
+################################################################################
+
+. /etc/carpentry
+
+####################
+
+remote_connection=$(nc -w 2 -v $remote_host 25 2>&1)
+res=$?
+
+# check for errors
+if [ $res -ne 0 ]; then
+  echo "mail to secondary: $remote_connection" # any ssh errors will go here
+  exit 1
+fi
+
+exit 0

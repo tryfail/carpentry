@@ -1,0 +1,10 @@
+carpdev vlan130
+vhid 3
+pass users-crp
+advskew 0
+description "carp link users vl130"
+inet 192.168.130.103 255.255.255.0 192.168.130.255
+#inet alias ip.a.dd.ress 255.255.255.255
+# it is imporant to keep all carp interfaces in the same group, so we can use demote by group
+group carp
+

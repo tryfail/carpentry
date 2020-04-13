@@ -1,0 +1,4 @@
+!pkill -f "openvpn-client-aquarium" && sleep 2
+!/usr/local/sbin/openvpn --cd /etc/openvpn-client-aquarium --dev $if --daemon --config aquarium.ovpn && sleep 3
+description "vpn client to aquarium"
+

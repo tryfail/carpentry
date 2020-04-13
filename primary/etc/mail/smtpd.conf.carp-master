@@ -1,0 +1,33 @@
+# managed by ifstated, also apply changes to the dynamically loaded files:
+# - /etc/mail/smtpd.conf.carp-master
+# - /etc/mail/smtpd.conf.carp-backup
+
+table aliases file:/etc/mail/aliases
+
+# the file holding the gmail username and password
+# After making changes, rebuild it with:
+# $ makemap secrets
+table secrets db:/etc/mail/secrets.db
+
+# To accept external mail, replace with: listen on all
+#
+
+authorized_src = "192.168.110.102"
+if_management = "192.168.110.101"
+listen on $if_management
+
+listen on lo0
+
+action "local" mbox alias <aliases>
+# multi-relay support is not possible as of 20200412 according to:
+# - https://github.com/OpenSMTPD/OpenSMTPD/issues/791
+
+action "relay" relay host smtp+tls://label@smtp.gmail.com:587 auth <secrets>
+
+# allow email we want to relay from secondary 
+match from src $authorized_src for domain "gmail.com" action "relay"
+
+match for local action "local"
+match for any action "relay"
+
+

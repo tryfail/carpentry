@@ -1,0 +1,25 @@
+bash-5.0.11         GNU Bourne Again Shell
+bzip2-1.0.8         block-sorting file compressor, unencumbered
+easy-rsa-3.0.6      small RSA key management package
+entr-4.3            run arbitrary commands when files change
+gettext-runtime-0.20.1p0 GNU gettext runtime libraries and programs
+iperf3-3.7          tool to measure maximum achievable bandwidth on IP networks
+libffi-3.2.1p5      Foreign Function Interface
+libiconv-1.16p0     character set conversion library
+libltdl-2.4.2p1     GNU libtool system independent dlopen wrapper
+libssh2-1.9.0       library implementing the SSH2 protocol
+libusb-compat-0.1.5p0 libusb-0.1 compatibility layer for libusb1
+libusb1-1.0.21p1    library for USB device access from userspace
+lua-5.3.5           powerful, light-weight programming language (version 5.3.5)
+lz4-1.9.2           fast BSD-licensed data compression
+lzo2-2.10p1         portable speedy lossless data compression library
+monit-5.26.0        monitoring and managing daemons utility
+mtr-0.93v0          network diagnostic tool, similar to ping and traceroute
+nmap-7.80           scan ports and fingerprint stack of network hosts
+nut-2.7.4p6         UPS monitoring program supporting many brands
+openvpn-2.4.7p1     easy-to-use, robust, and highly configurable VPN
+pcre-8.41p2         perl-compatible regular expression library
+python-2.7.16p1     interpreted object-oriented programming language
+quirks-3.183        exceptions to pkg_add rules
+sqlite3-3.29.0      embedded SQL implementation
+vmm-firmware-1.11.0p2 firmware binary images for vmm(4) driver

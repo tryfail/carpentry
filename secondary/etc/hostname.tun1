@@ -1,0 +1,4 @@
+up
+description "CARPENTRY OVPN"
+!pkill -f "carpentry.conf" && sleep 2
+!/usr/local/sbin/openvpn --cd /etc/openvpn/  --dev $if --daemon --config carpentry.conf && sleep 3

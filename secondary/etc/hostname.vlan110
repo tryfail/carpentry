@@ -1,0 +1,4 @@
+parent em1 vnetid 110
+inet 192.168.110.102
+description "management"
+

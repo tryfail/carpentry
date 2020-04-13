@@ -1,0 +1,23 @@
+# managed by ifstated, also apply changes to the dynamically loaded files:
+# - /etc/mail/smtpd.conf.carp-master
+# - /etc/mail/smtpd.conf.carp-backup
+
+carp_secondary="192.168.110.102"
+
+table aliases file:/etc/mail/aliases
+
+# the file holding the gmail username and password
+# After making changes, rebuild it with:
+# $ makemap secrets
+table secrets db:/etc/mail/secrets.db
+
+# To accept external mail, replace with: listen on all
+listen on lo0
+
+action "local" mbox alias <aliases>
+action "relay" relay host $carp_secondary
+
+match for local action "local"
+match for any action "relay"
+
+

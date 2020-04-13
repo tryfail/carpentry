@@ -1,0 +1,12 @@
+# managed by ifstated, also apply changes to the dynamically loaded files:
+# - /etc/ntpd.conf.carp-master
+# - /etc/ntpd.conf.carp-backup
+
+servers pool.ntp.org
+sensor *
+constraints from "https://www.google.com"
+
+# we need to serve to primary gateway, so that time stays correct, while it is not carp master and does not have access to the internet
+listen on 192.168.110.102
+
+

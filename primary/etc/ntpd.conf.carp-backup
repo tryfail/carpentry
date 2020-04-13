@@ -1,0 +1,10 @@
+# managed by ifstated, also apply changes to the dynamically loaded files:
+# - /etc/ntpd.conf.carp-master
+# - /etc/ntpd.conf.carp-backup
+
+server 192.168.110.102
+sensor *
+
+# cannot use constaints when carp backup, because of no access to the internet
+#constraints from "https://www.google.com"
+

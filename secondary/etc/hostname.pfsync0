@@ -1,0 +1,3 @@
+up
+syncif vlan110
+syncpeer 192.168.110.101

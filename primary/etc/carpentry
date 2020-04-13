@@ -1,0 +1,56 @@
+####################
+# carpentry configuration file
+
+####################
+# helper vars
+
+##########
+# paths
+# path to our bins as required in /etc/rc.d/carpentry
+bin_path=/etc/carpentry.bin
+
+##########
+# scp and ssh
+# timeouts. replaces very high default timeout
+timeout="5"
+ssh_cmd="ssh -o ConnectTimeout=$timeout"
+# -B is to avoid hanging on some conditions (e.g. ssh key changed, password prompt)
+# -p is not for permissions, only modes and times 
+rcp_cmd="scp -B -pr -o ConnectTimeout=$timeout"
+# remote_user: not configurable as many actions required elevated privilleges
+remote_user="root"
+remote_host="192.168.110.102"
+remote="$remote_user@$remote_host"
+
+##########
+# pf table synchonization: memory
+
+# space-separated list of table names to monitor for changes. Cannot be a table configured as 'const' in pf.conf
+pf_table_names="ntp_pool pkgs_openbsd pkgs_ubuntu ssh-abusers all"
+
+# pf table synchonization: files
+path_tables="/etc/pf.tables"
+
+#########
+# logs
+
+carpentry_logfile=/var/log/carpentry.log
+log_tag="carpentry"
+
+##########
+# mail
+mail_from=4fXTbpDwJLb6@gmail.com
+mail_subject="carpentry-log: event"
+mail_destination="root"
+
+
+####################
+# helper functions
+
+carpentry_exit() {
+  logger -t $log_tag "carpentry_exit: called because something wrong happened. Check $log_tag logs"
+  tail -n 50 "$carpentry_logfile" | mail -r "$mail_from" -s "$mail_subject" "$mail_destination"
+  exit 1
+}
+
+

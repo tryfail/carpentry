@@ -1,0 +1,36 @@
+# For information on managing this file, check README.md for carpentry
+
+################################################################################
+# physical and virtual interface macros
+
+####################
+# wan
+if_wan1=re0
+if1_carp_internet=carp0
+
+####################
+# lan
+
+if_lan0=em0
+if_carp_lan0=carp100
+
+# no carp on management interface
+if_management=vlan110
+if_sync=vlan110
+
+if_lan2=vlan120
+if_carp_lan2=carp120
+
+if_lan3=vlan130
+if_carp_lan3=carp130
+
+# use makedev if running out of tuns
+if_vpn1=tun1
+if_vpn2=tun2
+
+
+####################
+# WARNING: always add new carp interfaces here. It is the the one that is mentioned within hostname.carpXYZ
+
+ifs_carp="{re0 em0 vlan120 vlan130}"
+

@@ -1,0 +1,12 @@
+carpdev re0
+vhid 1
+pass out-carp
+advskew 0
+description "carp link internet"
+inet 192.168.0.103 255.255.255.0 192.168.0.255
+#inet alias ip.a.dd.ress 255.255.255.255
+# it is imporant to keep all carp interfaces in the same group, so we can use demote by group
+group carp
+# substitutes /etc/mygate
+!/sbin/route add -mpath default 192.168.0.130
+

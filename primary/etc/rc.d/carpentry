@@ -1,0 +1,70 @@
+#!/bin/ksh
+# For information on managing this file, check README.md for carpentry
+################################################################################
+
+# our vars
+. /etc/carpentry
+
+# CRUD
+daemon="/usr/local/bin/entr"
+
+. /etc/rc.d/rc.subr
+
+# reload is pointless
+rc_reload=NO
+
+# process to match exactly (including files) in order to do checks and termination of service
+pexp="/usr/local/bin/entr.*"
+
+####################
+
+#rc_pre() {
+#}
+
+####################
+
+rc_start() {
+  /usr/bin/logger -t $log_tag "service: starting with rc.d"
+
+  # binary paths must be absolute, because there is no PATH at boot time as per my testing
+  # line order does not matter for the following entr commands
+
+  # unbound
+  (/usr/bin/find /var/unbound/etc/ | /usr/local/bin/entr -pn ksh $bin_path/unbound.sh &)
+
+  # dhcpd
+  (/bin/ls /etc/dhcpd.conf | /usr/local/bin/entr -np ksh $bin_path/dhcpd.conf.sh &)
+
+  # openvpn
+  # list all openvpn directories that you may need to copy whenever a file changes within one of them
+  # all directories matching 'openvpn' in '/etc' will be copied over
+  (/usr/bin/find /etc/openvpn /etc/openvpn-client-aquarium | /usr/local/bin/entr -np ksh $bin_path/openvpn-all.sh &)
+
+  # pf
+  (/bin/ls /etc/pf.conf | /usr/local/bin/entr -np ksh $bin_path/pf.conf.sh &)
+  # pf: sync file-persisted tables in addition to pf.conf
+  (/usr/bin/find /etc/pf.tables | /usr/local/bin/entr -np ksh $bin_path/pf.conf.sh -t &)
+
+  /usr/bin/tail -n 50 "$carpentry_logfile" | /usr/bin/mail -r "$mail_from" -s "$mail_subject: service started with rc.d" "$mail_destination"
+}
+
+####################
+
+rc_check() {
+  logger -t $log_tag "carpentry: checking with rc.d"
+  pgrep -xf "/usr/local/bin/entr -n.*"
+}
+
+####################
+
+rc_stop() {
+  logger -t $log_tag "service: stopping with rc.d"
+  pkill -15  -xf "/usr/local/bin/entr -n.*"
+  tail -n 50 "$carpentry_logfile" | mail -r "$mail_from" -s "$mail_subject: service stopped with rc.d" "$mail_destination"
+}
+
+####################
+
+# CRUD
+rc_cmd $1
+
