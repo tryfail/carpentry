@@ -1,4 +1,9 @@
 
+# todo
+
+- monitor difference in states between carp gateways
+- monit default config: check if important scripts exist
+
 # doc: carpentry
 
 This document covers the carpentry project. 'carpentry' is a way of managing CARP gateways that must run local services due to network environment limitations. This fills in the role of a configuration management system for a pair of carp gateways. Some of the services that must be hosted on the carp gateways, are not mature enough to deal with this specific environment. To make-up for these limitations, this project leverages the base system and entr(8) to increase the quality of management. 
