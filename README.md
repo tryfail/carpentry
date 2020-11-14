@@ -434,6 +434,7 @@ Consolidation is required, when the primary has been unavailable for some time a
 
 ## upgrading the carp gateways
 
+Notes:
 - this section applies to an internet-based upgrade, but it is trivial to adapt it to that situation 
 - this section does not apply to syspatch, but it is trivial to adapt it to that situation
 - ideally, only change carp master as much as needed, so follow the procedure. In summary, this means:
@@ -484,6 +485,7 @@ pfctl -d
 - ...
 - installboot <BOOTDISK>
 - syspatch
+- fw_update # it most likely has not been able to get upgrades during sysupgrade
 - pkg_add -u
 - ...
 - reboot
@@ -507,7 +509,6 @@ ifconfig carp0 destroy
 - after doing all upgrades and before the final reboot, re-activate preemption in /etc/sysctl.conf
 - reboot
 
-
 ## troubleshooting
 
 - monit log
@@ -516,4 +517,12 @@ ifconfig carp0 destroy
 - netstat -sp carp
 - tcpdump -netti vlanX # look for carp traffic
 - tcpdump -netti pflog0 # blocks
+
+### log: error: carp incorrect hash
+
+If you see this in dmesg, messages or daemon logs, it usually means that the configuration differs between the carp interface configuration on both hosts.  May involve at least:
+- addressing errors
+- netmask errors
+
+
 
