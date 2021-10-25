@@ -47,36 +47,25 @@ function push_changes {
   # cannot always use replace, which is faster and less prone to error, because of the ARG_MAX and xargs limitations
   # argmax is ~260k character, which is about 18K ipv4 addresses without CIDR
   # Note: '-n 10000' speficifies that each execution of xargs will use up to 10000 arguments, because there seems to be some slowness in doing more than that. However, the '-s $xargs_max' applies first and it means up to $xargs_max characters will be used as arguments. This means that xargs is called between TOTAL_ARGS_NUMBER/10000 and TOTAL_ARGS_CHARACTERS/$xargs_max number of times instead
-
-  if [ ${#table_content_local} -gt $xargs_max ]; then # delete and add
-    out=$(${ssh_cmd} "$remote" "pfctl -q -t $table_name -T kill")
-    res=$?
-    # check for errors
-    if [ "$res" -ne "0" -a "$table_content_remote" != 'pfctl: Table does not exist.' ]; then
-      echo $out | logger -t $log_tag
-      carpentry_exit
-    fi
-
-    out=$(pfctl -t $table_name -T show 2>&1 | ${ssh_cmd} "$remote" "xargs -n 10000 -s $xargs_max pfctl -q -t $table_name -T add")
-    res=$?
-    # check for errors
-    if [ "$res" -ne "0" ]; then
-      echo $out | logger -t $log_tag
-      carpentry_exit
-    fi
-    echo "triggered update of remote pf tables: large table $table_name was updated" | logger -t $log_tag
-
-  else # replace
-    out=$(printf $table_content_local 2>/dev/null | ${ssh_cmd} "$remote" "xargs -n 10000 -s $xargs_max pfctl -q -t $table_name -T replace")
-    res=$?
-    # check for errors
-    if [ "$res" -ne "0" ]; then
-      echo $out | logger -t $log_tag
-      carpentry_exit
-    fi
-    echo "triggered update of remote pf tables: small table $table_name was updated" | logger -t $log_tag
-
+  # 20211025-1400: removed if/else that included a feature to use pfctl...replace. Unfortunately, 'replace' is more performant but it is not as useful
+  
+  out=$(${ssh_cmd} "$remote" "pfctl -q -t $table_name -T kill")
+  res=$?
+  # check for errors
+  if [ "$res" -ne "0" -a "$table_content_remote" != 'pfctl: Table does not exist.' ]; then
+    echo $out | logger -t $log_tag
+    carpentry_exit
   fi
+
+  out=$(pfctl -t $table_name -T show 2>&1 | ${ssh_cmd} "$remote" "xargs -n 10000 -s $xargs_max pfctl -q -t $table_name -T add")
+  res=$?
+  # check for errors
+  if [ "$res" -ne "0" ]; then
+    echo $out | logger -t $log_tag
+    carpentry_exit
+  fi
+  echo "triggered update of remote pf tables: large table $table_name was updated" | logger -t $log_tag
+
 }
 
 ################################################################################
