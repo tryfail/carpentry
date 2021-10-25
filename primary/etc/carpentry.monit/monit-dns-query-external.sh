@@ -8,7 +8,7 @@
 ####################
 # check for invalid carp
 
-dns_query=$(dig +tries=2 +time=2 @199.43.135.53 an.example.com 2>&1) 2>&1
+dns_query=$(dig +tries=4 +time=2 @199.43.135.53 an.example.com 2>&1) 2>&1
 res=$?
 # check for errors
 if [ $res -ne 0 ]; then
