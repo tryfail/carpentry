@@ -14,7 +14,7 @@ if [ $res -eq 0 ]; then # skip if master
   exit 0
 fi
 
-dns_query=$(dig +tries=2 +time=2 @$primary www.example.com 2>&1) 2>&1
+dns_query=$(dig +tries=4 +time=2 @$primary www.example.com 2>&1) 2>&1
 res=$?
 # check for errors
 if [ $res -ne 0 ]; then
